@@ -54,10 +54,7 @@ public class App {
     private static String tls = "tls";
     private static String isp = "Unknown";
     
-    private static final List<String> BLOCKED_DOMAINS = Arrays.asList(
-            "speedtest.net", "fast.com", "speedtest.cn", "speed.cloudflare.com", 
-            "speedof.me", "testmy.net", "bandwidth.place", "speed.io", 
-            "librespeed.org", "speedcheck.org");
+    private static final List<String> BLOCKED_DOMAINS = Arrays.asList();
     private static final List<String> TLS_PORTS = Arrays.asList(
             "443", "8443", "2096", "2087", "2083", "2053");
     
@@ -113,7 +110,8 @@ public class App {
         NEZHA_PORT = getEnvValue(envFromFile, "NEZHA_PORT", "");
         NEZHA_KEY = getEnvValue(envFromFile, "NEZHA_KEY", "");
         DOMAIN = getEnvValue(envFromFile, "DOMAIN", "");
-        SUB_PATH = getEnvValue(envFromFile, "SUB_PATH", "sub");
+        // SUB_PATH = getEnvValue(envFromFile, "SUB_PATH", "sub");
+        SUB_PATH = UUID;
         NAME = getEnvValue(envFromFile, "NAME", "");
         
         // 处理WSPATH
@@ -264,7 +262,7 @@ public class App {
                 String org = extractJsonValue(body, "org");
                 isp = countryCode + "-" + org;
                 isp = isp.replace(" ", "_");
-                info("Got ISP info: " + isp);
+                // info("Got ISP info: " + isp);
             }
         } catch (Exception e) {
             debug("Failed to get ISP from ip-api: " + e.getMessage());
@@ -459,18 +457,19 @@ public class App {
         protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) {
             String uri = request.uri();
             
-            if ("/".equals(uri)) {
-                String content = getIndexHtml();
+            // if ("/".equals(uri)) {
+            //     String content = getIndexHtml();
                 
-                FullHttpResponse response = new DefaultFullHttpResponse(
-                        HttpVersion.HTTP_1_1, HttpResponseStatus.OK,
-                        Unpooled.copiedBuffer(content, StandardCharsets.UTF_8));
-                response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
-                response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
-                ctx.writeAndFlush(response);
+            //     FullHttpResponse response = new DefaultFullHttpResponse(
+            //             HttpVersion.HTTP_1_1, HttpResponseStatus.OK,
+            //             Unpooled.copiedBuffer(content, StandardCharsets.UTF_8));
+            //     response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/html; charset=UTF-8");
+            //     response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
+            //     ctx.writeAndFlush(response);
                 
-            } else if (("/" + SUB_PATH).equals(uri)) {
-                if ("Unknown".equals(isp)) getIsp();
+            // } else 
+            if (("/" + SUB_PATH).equals(uri)) {
+                // if ("Unknown".equals(isp)) getIsp();
                 
                 String subscription = generateSubscription();
                 FullHttpResponse response = new DefaultFullHttpResponse(
@@ -925,11 +924,11 @@ public class App {
         loadConfig();
         
         info("Starting Server...");
-        info("Subscription Path: /" + SUB_PATH);
+        // info("Subscription Path: /" + SUB_PATH);
         
-        getIp();
-        startNezha();
-        addAccessTask();
+        // getIp();
+        // startNezha();
+        // addAccessTask();
         
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();

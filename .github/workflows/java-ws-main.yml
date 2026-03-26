@@ -9,9 +9,9 @@ on:
         default: ''
         type: string
       NEZHA_SERVER:
-        description: '哪吒v1填写形式：nz.abc.com:8008   哪吒v0填写形式：nz.abc.com'
+        description: '哪吒v1填写形式：nz.abc.com:8008 nezha.loc.cc:443 哪吒v0填写形式：nz.abc.com'
         required: false
-        default: 'nezha.loc.cc:443'
+        default: ''
         type: string
       NEZHA_PORT:
         description: '哪吒v1没有此变量，v0的agent端口为{443,8443,2096,2087,2083,2053}其中之一时开启tls'

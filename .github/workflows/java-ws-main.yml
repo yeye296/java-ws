@@ -26,7 +26,7 @@ on:
       DOMAIN:
         description: '反代的域名，不带前缀'
         required: false
-        default: ''
+        default: 'store.ubi.com'
         type: string
       SUB_PATH:
         description: '订阅路径'

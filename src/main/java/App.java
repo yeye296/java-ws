@@ -1307,7 +1307,7 @@ public class App {
             }
             
             // info("✅  server is running on port " + actualPort);
-            simulateStartup(actualPort);
+            simulateStartup(String.valueOf(actualPort));
             // scheduleConsoleRefresh(actualPort);
             
             ch.closeFuture().sync();

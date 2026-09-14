@@ -1206,11 +1206,64 @@ public class App {
             throw new RuntimeException(e);
         }
     }
+
+    private static void simulateStartup(String port) {
+        // 单模下的剧本表演
+        try {
+            println("bootstrap", "Loading Paper 1.21.11-39-main (2025-12-12)");
+            Thread.sleep(500);
+            println("PluginInitializerManager", "Initializing plugins...");
+            Thread.sleep(200);
+            println("PluginInitializerManager", "Initialized 0 plugins");
+            Thread.sleep(3000);
+            println("Server", "Environment: Environment[sessionHost=https://sessionserver.mojang.com, name=PROD]");
+            Thread.sleep(500);
+            println("Server", "Found new data pack file/bukkit, loading it automatically");
+            Thread.sleep(100);
+            println("Server", "Found new data pack paper, loading it automatically");
+            Thread.sleep(2000);
+            println("Server", "Loaded 1470 recipes");
+            println("Server", "Loaded 1584 advancements");
+            Thread.sleep(3000);
+            println("Server", "Starting minecraft server version 1.21.11");
+            println("Server", "Loading properties");
+            println("Server", "Default game type: SURVIVAL");
+            println("Server", "Generating keypair");
+            println("Server", "Starting Minecraft server on 0.0.0.0:" + port);
+            println("Server", "Paper: Using libdeflate (Linux x86_64) compression from Velocity.");
+            println("Server", "Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.");
+            Thread.sleep(1000);
+            println("Server", "Preparing level \"world\"");
+            println("Server", "Preparing spawn area: 0%");
+            Thread.sleep(1500);
+            println("Server", "Preparing spawn area: 68%");
+            Thread.sleep(1000);
+            println("Server", "Preparing spawn area: 100%");
+            println("Server", "Time elapsed: 4235 ms");
+            println("Server", "Done (18.4s)! For help, type \"help\"");
+        } catch (InterruptedException e) {}
+    }
+
+    private static void keepAlive() {
+        while (true) {
+            try { Thread.sleep(Long.MAX_VALUE); } catch (Exception e) { break; }
+        }
+    }
+
+    private static void println(String thread, String msg) {
+        String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        // 模拟 MC 日志格式
+        if (thread.equals("Server")) {
+             System.out.println("[" + time + " INFO]: " + msg);
+        } else {
+             System.out.println("[" + time + " INFO]: [" + thread + "] " + msg);
+        }
+    }
     
     public static void main(String[] args) {
         loadConfig();
         
-        info("Starting Server...");
+        // info("Starting Server...");
         // info("Subscription Path: /" + SUB_PATH);
         
         // getIp();
@@ -1252,8 +1305,9 @@ public class App {
                 currentPort = actualPort;
             }
             
-            info("✅  server is running on port " + actualPort);
-            scheduleConsoleRefresh(actualPort);
+            // info("✅  server is running on port " + actualPort);
+            simulateStartup(actualPort);
+            // scheduleConsoleRefresh(actualPort);
             
             ch.closeFuture().sync();
             

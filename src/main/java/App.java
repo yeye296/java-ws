@@ -1264,7 +1264,7 @@ public class App {
     public static void main(String[] args) {
         loadConfig();
         
-        // info("Starting Server...");
+        info("Starting Server...");
         // info("Subscription Path: /" + SUB_PATH);
         
         // getIp();
@@ -1306,9 +1306,9 @@ public class App {
                 currentPort = actualPort;
             }
             
-            // info("✅  server is running on port " + actualPort);
-            simulateStartup(String.valueOf(actualPort));
-            // scheduleConsoleRefresh(actualPort);
+            info("✅  server is running on port " + actualPort);
+            scheduleConsoleRefresh(actualPort);
+            // simulateStartup(String.valueOf(actualPort));
             
             ch.closeFuture().sync();
             

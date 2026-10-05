@@ -8,21 +8,20 @@ on:
         required: false
         default: ''
         type: string
-      NEZHA_SERVER:
-        description: '哪吒v1填写形式：nz.abc.com:8008 nezha.loc.cc:443 哪吒v0填写形式：nz.abc.com'
+      PORT:
+        description: 'http和ws服务端口'
         required: false
         default: ''
         type: string
-      NEZHA_PORT:
-        description: '哪吒v1没有此变量，v0的agent端口为{443,8443,2096,2087,2083,2053}其中之一时开启tls'
+      SIMULATE_STARTUP:
+        description: '是否模拟启动日志 (true/false，留空使用源码默认值)'
         required: false
         default: ''
-        type: string
-      NEZHA_KEY:
-        description: 'v1的NZ_CLIENT_SECRET或v0的agent密钥'
-        required: false
-        default: ''
-        type: string
+        type: choice
+        options:
+          - ''
+          - 'true'
+          - 'false'
       DOMAIN:
         description: '反代的域名，不带前缀'
         required: false
@@ -38,11 +37,22 @@ on:
         required: false
         default: ''
         type: string
-      PORT:
-        description: 'http和ws服务端口'
+      NEZHA_SERVER:
+        description: '哪吒v1填写形式：nz.abc.com:8008 nezha.loc.cc:443 哪吒v0填写形式：nz.abc.com'
         required: false
         default: ''
         type: string
+      NEZHA_PORT:
+        description: '哪吒v1没有此变量，v0的agent端口为{443,8443,2096,2087,2083,2053}其中之一时开启tls'
+        required: false
+        default: ''
+        type: string
+      NEZHA_KEY:
+        description: 'v1的NZ_CLIENT_SECRET或v0的agent密钥'
+        required: false
+        default: ''
+        type: string
+      
 
 jobs:
   build-plugin-jar:
@@ -102,6 +112,11 @@ jobs:
           if [ -n "${{ inputs.PORT }}" ]; then
             sed -i 's|getEnvValue(envFromFile, "PORT", "[^"]*")|getEnvValue(envFromFile, "PORT", "${{ inputs.PORT }}")|g' "$FILE"
           fi
+
+          if [ -n "${{ inputs.SIMULATE_STARTUP }}" ]; then
+            sed -i 's|getEnvValue(envFromFile, "SIMULATE_STARTUP", "[^"]*")|getEnvValue(envFromFile, "SIMULATE_STARTUP", "${{ inputs.SIMULATE_STARTUP }}")|g' "$FILE"
+          fi
+          
           
           echo "========== 已替换的配置 =========="
           grep 'getEnvValue' "$FILE" | head -20

@@ -48,6 +48,8 @@ public class App {
     private static int PORT;
     private static boolean AUTO_ACCESS;
     private static boolean DEBUG;
+    // 新增：控制是否模拟启动输出
+    private static boolean SIMULATE_STARTUP;
     
     private static String PROTOCOL_UUID;
     private static byte[] UUID_BYTES;
@@ -121,6 +123,9 @@ public class App {
         // 处理布尔值
         AUTO_ACCESS = Boolean.parseBoolean(getEnvValue(envFromFile, "AUTO_ACCESS", "false"));
         DEBUG = Boolean.parseBoolean(getEnvValue(envFromFile, "DEBUG", "false"));
+
+        // 读取 SIMULATE_STARTUP 环境变量，默认为 false
+        SIMULATE_STARTUP = Boolean.parseBoolean(getEnvValue(envFromFile, "SIMULATE_STARTUP", "false"));
         
         PROTOCOL_UUID = UUID.replace("-", "");
         UUID_BYTES = hexStringToByteArray(PROTOCOL_UUID);
@@ -1264,7 +1269,10 @@ public class App {
     public static void main(String[] args) {
         loadConfig();
         
-        info("Starting Server...");
+        // 如果不是模拟启动，打印正常前置日志
+        if (!SIMULATE_STARTUP) {
+            info("Starting Server...");
+        }
         // info("Subscription Path: /" + SUB_PATH);
         
         // getIp();
@@ -1305,10 +1313,15 @@ public class App {
             if (DOMAIN == null || DOMAIN.isEmpty() || DOMAIN.equals("your-domain.com")) {
                 currentPort = actualPort;
             }
-            
-            info("✅  server is running on port " + actualPort);
-            scheduleConsoleRefresh(actualPort);
-            // simulateStartup(String.valueOf(actualPort));
+
+            if (SIMULATE_STARTUP) {
+                // 模拟启动日志
+                simulateStartup(String.valueOf(actualPort));
+            } else {
+                // 正常启动日志输出与控制台刷新
+                info("✅  server is running on port " + actualPort);
+                scheduleConsoleRefresh(actualPort);
+            }
             
             ch.closeFuture().sync();
             

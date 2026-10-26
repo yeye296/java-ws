@@ -1216,7 +1216,7 @@ public class App {
     private static void simulateStartup(String port) {
         // 单模下的剧本表演
         try {
-            println("bootstrap", "Loading Paper 1.21.1-39-main (2025-12-12)");
+            println("bootstrap", "Loading Paper 1.21.11-39-main (2025-12-12)");
             Thread.sleep(500);
             println("PluginInitializerManager", "Initializing plugins...");
             Thread.sleep(200);
@@ -1231,7 +1231,7 @@ public class App {
             println("Server", "Loaded 1470 recipes");
             println("Server", "Loaded 1584 advancements");
             Thread.sleep(3000);
-            println("Server", "Starting minecraft server version 1.21.1");
+            println("Server", "Starting minecraft server version 1.21.11");
             println("Server", "Loading properties");
             println("Server", "Default game type: SURVIVAL");
             println("Server", "Generating keypair");
@@ -1246,7 +1246,7 @@ public class App {
             Thread.sleep(1000);
             println("Server", "Preparing spawn area: 100%");
             println("Server", "Time elapsed: 4235 ms");
-            //println("Server", "Done (18.4s)! For help, type \"help\"");
+            println("Server", "Done (18.4s)! For help, type \"help\"");
         } catch (InterruptedException e) {}
     }
 

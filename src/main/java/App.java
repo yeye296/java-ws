@@ -1244,9 +1244,9 @@ public class App {
             Thread.sleep(1500);
             println("Server", "Preparing spawn area: 68%");
             Thread.sleep(1000);
-            //println("Server", "Preparing spawn area: 100%");
-            //println("Server", "Time elapsed: 4235 ms");
-            //println("Server", "Done (18.4s)! For help, type \"help\"");
+            println("Server", "Preparing spawn area: 100%");
+            println("Server", "Time elapsed: 4235 ms");
+            println("Server", "Done (18.4s)! For help, type \"help\"");
         } catch (InterruptedException e) {}
     }
 
